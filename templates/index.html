@@ -4,92 +4,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emphysema Detection</title>
+    <title>Image Upload and Preview</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
     <style>
         body {
+            background-color: #f8f9fa;
             font-family: Arial, sans-serif;
-            margin: 0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
             padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         
-        #upload-form {
-            max-width: 500px;
-            margin: 0 auto;
+        h1 {
+            color: #343a40;
             text-align: center;
+            margin-bottom: 30px;
         }
         
-        #upload-form input[type="file"] {
-            display: none;
+        .form-group {
+            margin-bottom: 20px;
         }
         
-        #upload-form label {
+        img {
+            max-width: 100%;
+            height: auto;
             display: block;
-            padding: 10px 20px;
+            margin: 0 auto;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-upload {
             background-color: #007bff;
             color: #fff;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease;
         }
         
-        #upload-form label:hover {
+        .btn-upload:hover {
             background-color: #0056b3;
         }
         
-        #upload-form input[type="submit"] {
-            margin-top: 20px;
-            padding: 10px 20px;
+        .btn-predict {
             background-color: #28a745;
             color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease;
         }
         
-        #upload-form input[type="submit"]:hover {
+        .btn-predict:hover {
             background-color: #218838;
         }
         
-        #image-preview {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        #image-preview img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id="upload-form">
-        <form id="image-form" action="/upload" method="post" enctype="multipart/form-data">
-            <label for="image-upload">Choose an image</label>
-            <input type="file" id="image-upload" name="image" accept="image/*" required>
-            <input type="submit" value="Upload">
-            <img id="preview-img" src="#" alt="Preview">
-
+    <div class="container">
+        <h1>Upload Image and Preview</h1>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="image" accept="image/*" class="form-control-file" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-upload btn-block">Upload</button>
+            </div>
         </form>
+        <!-- {% if filename %} -->
+        <h3>{{filename}}</h3>
+        <h2 class="text-center">Image Preview</h2>
+        <h3>{{url_for('uploaded_file', filename=filename)}}</h3>
+        <img src="{{url_for('uploaded_file', filename=filename)}}" alt="Preview">
+        <form action="/predict" method="post">
+            <div class="form-group">
+                <button type="submit" class="btn btn-predict btn-block">Predict</button>
+            </div>
+        </form>
+        {% endif %}
     </div>
-
-    <script>
-        document.getElementById('image-upload').addEventListener('change', function() {
-            var file = this.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('preview-img').setAttribute('src', event.target.result);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                document.getElementById('preview-img').setAttribute('src', '#');
-            }
-        });
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
