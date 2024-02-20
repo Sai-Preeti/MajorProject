@@ -77,16 +77,13 @@
         <form action="/" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="file" name="image" accept="image/*" class="form-control-file" required>
+                <img src="{{url_for('uploaded_file', filename=filename)}}" alt="Preview" class="h-25 w-25">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-upload btn-block">Upload</button>
             </div>
         </form>
         <!-- {% if filename %} -->
-        <h3>{{filename}}</h3>
-        <h2 class="text-center">Image Preview</h2>
-        <h3>{{url_for('uploaded_file', filename=filename)}}</h3>
-        <img src="{{url_for('uploaded_file', filename=filename)}}" alt="Preview">
         <form action="/predict" method="post">
             <div class="form-group">
                 <button type="submit" class="btn btn-predict btn-block">Predict</button>
