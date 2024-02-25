@@ -29,8 +29,8 @@ def convert_tiff_to_png(file):
         print(f"Error during conversion: {e}")
         return None
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
     filename = None
     if request.method == 'POST':
         if 'image' not in request.files:
@@ -47,19 +47,19 @@ def index():
                     return "Error during conversion"
             else:
                 return "Uploaded file is not an image"
-        return render_template('index.html', filename=filename)
-    return render_template('index.html')
+        return render_template('predict.html', filename=filename)
+    return render_template('predict.html')
             # return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
     
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/result', methods=['POST'])
+def result():
     # Add your prediction logic here
     return render_template('prediction.html')
 
-@app.route('/test', methods=['GET','POST'])
-def test():
+@app.route('/', methods=['GET','POST'])
+def index():
     # Add your prediction logic here
-    return render_template('test.html')
+    return render_template('index.html')
 
 # import requests
 # from geopy.geocoders import Nominatim
@@ -154,6 +154,14 @@ def uploaded_file(filename):
 @app.route('/what_is_emphysema')
 def what_is_emphysema():
     return render_template('what_is_emphysema.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/nearme')
+def nearme():
+    return render_template('near_me.html')
     
 if __name__ == '__main__':
     app.run(debug=True)
